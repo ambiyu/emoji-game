@@ -35,7 +35,7 @@ class MyWebcam extends Component {
     };
 
     fetchData = byteArray => {
-        const apiKey = "23d408f8360d458bb15f89ca736573a5";
+        const apiKey = "123abc";
         const apiEndpoint =
             "https://australiaeast.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion";
         fetch(apiEndpoint, {
