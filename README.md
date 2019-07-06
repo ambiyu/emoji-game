@@ -1,4 +1,4 @@
-## Instructions
+## App Instructions
 
 This app uses your webcam to detect your facial expressions. 
 Press the start button to start the game and emoji's will begin to appear every few seconds.
