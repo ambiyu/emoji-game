@@ -82,7 +82,7 @@ class MyWebcam extends Component {
                     emotionValue = Math.round(emotionValue*100);
                     if (this.props.isPlaying) {
                         this.props.onReceivedResult(emotionValue);
-                        if (this.props.currentEmoji === 2 || this.props.currentEmoji === 3) {
+                        if (this.props.currentEmoji === 1 || this.props.currentEmoji === 2) {
                             if (emotionValue >= 40) { // lower threshold for anger and sadness
                                 this.props.onCorrectEmotion();
                             }
