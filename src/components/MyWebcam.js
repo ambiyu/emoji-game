@@ -23,9 +23,8 @@ class MyWebcam extends Component {
                 const image = this.webcam.getScreenshot();
                 const byteArrayImage = this.convertToByteArray(image);
                 this.fetchData(byteArrayImage);
-                console.log(this.props.currentEmoji)
             }
-        }, 600);
+        }, 500);
     };
 
     convertToByteArray = image => {
@@ -35,7 +34,7 @@ class MyWebcam extends Component {
     };
 
     fetchData = byteArray => {
-        const apiKey = "123abc";
+        const apiKey = "abc123";
         const apiEndpoint =
             "https://australiaeast.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion";
         fetch(apiEndpoint, {
@@ -50,27 +49,36 @@ class MyWebcam extends Component {
             if (response.ok) {
                 response.json().then(data => {
                     let emotionValue;
-                    switch (this.props.currentEmoji) {
-                        case 0: 
-                            emotionValue = data[0] != null ? data[0].faceAttributes.emotion.happiness : 0;
-                            console.log("happiness ", emotionValue);
-                            break;
-                        case 1:
-                            emotionValue = data[0] != null ? data[0].faceAttributes.emotion.anger : 0;
-                            break;
-                        case 2:
-                            emotionValue = data[0] != null ? data[0].faceAttributes.emotion.sadness : 0;
-                            break;
-                        case 3:
-                            emotionValue = data[0] != null ? data[0].faceAttributes.emotion.surprise : 0;
-                            console.log("surprise ", emotionValue);
-                            break;
-                        case 4:
-                            emotionValue = data[0] != null ? data[0].faceAttributes.emotion.neutral : 0;
-                            break;
-                        default:
-                            emotionValue = 0;
+                    if (data[0] != null) {
+                        switch (this.props.currentEmoji) {
+                            case 0:
+                                emotionValue = data[0].faceAttributes.emotion.happiness;
+                                console.log("happiness " + emotionValue);
+                                break;
+                            case 1:
+                                emotionValue = data[0].faceAttributes.emotion.anger;
+                                console.log("anger " + emotionValue);
+                                break;
+                            case 2:
+                                emotionValue = data[0].faceAttributes.emotion.sadness;
+                                console.log("sadness " + emotionValue);
+                                break;
+                            case 3:
+                                emotionValue = data[0].faceAttributes.emotion.surprise;
+                                console.log("surprise " + emotionValue);
+                                break;
+                            case 4:
+                                emotionValue = data[0].faceAttributes.emotion.neutral;
+                                console.log("neutral " + emotionValue);
+                                break;
+                            default:
+                                emotionValue = 0;
+                        }
+                    } else { 
+                        emotionValue = 0;
+                        console.log("no face detected");
                     }
+
                     emotionValue = Math.round(emotionValue*100);
                     if (this.props.isPlaying) {
                         this.props.onReceivedResult(emotionValue);
@@ -109,9 +117,11 @@ class MyWebcam extends Component {
                         videoConstraints={videoConstraints}
                     />
                 </div>
-                <button variant="primary" onClick={this.startCapturing}>
-                    Start Game
-                </button>
+                <div className="button">
+                    <button className="startButton" variant="primary" onClick={this.startCapturing}>
+                        Start Game
+                    </button>
+                </div>
             </div>
         );
     }

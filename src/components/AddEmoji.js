@@ -6,8 +6,8 @@ class AddEmoji extends Component {
         super();
         this.timerID = null;
         this.MAX_EMOJI_COUNT = 10;
+        this.interval = 3500; // starts at 3500ms delay and exponentially decays to 1000ms
     }
-    
 
     componentDidMount() {
         this.timerID = setInterval(() => {
@@ -18,7 +18,7 @@ class AddEmoji extends Component {
                 let randomID = Math.floor(Math.random() * Emoji.emojis.length);
                 this.props.onNewEmoji(randomID);
             }
-        }, 3000);
+        }, 2500);
     }
 
     render() {

@@ -13,6 +13,8 @@ class EmojiGame extends Component {
             isPlaying: false
         };
         this.state = this.initialState;
+        this.timer = null;
+        this.highScore = 0;
     }
 
     handlePlay = () => {
@@ -20,9 +22,13 @@ class EmojiGame extends Component {
     }
 
     handleGameOver = () => {
+        if (this.state.score > this.highScore) {
+            this.highScore = this.state.score;
+        }
         this.setState(this.initialState);
     }
 
+    // Adds the given emoji to the array
     handleNewEmoji = emojiId => {
         let ids;
         if (this.state.ids.length === 0) {
@@ -39,14 +45,12 @@ class EmojiGame extends Component {
     }
 
     getFirstEmoji() {
-        if (this.state.ids.length === 0) {
-            return null;
-        } else return this.state.ids[0].emojiId;
+        if (this.state.ids.length !== 0) {
+            return this.state.ids[0].emojiId;
+        } else return null;
     }
 
     render() {
-        let firstEmoji = this.getFirstEmoji();
-
         if (this.state.isPlaying) {
             return (
                 <div>
@@ -55,13 +59,14 @@ class EmojiGame extends Component {
                         onPlay={this.handlePlay}
                         onGameOver={this.handleGameOver}
                         onCorrectEmotion={this.handleRemoveEmoji}
-                        currentEmoji={firstEmoji}
+                        currentEmoji={this.getFirstEmoji()}
                     />
-                    <h1>Score: {this.state.score}</h1>
+                    <h1 className="score">Score: {this.state.score}</h1>
                     <AddEmoji
                         onNewEmoji={this.handleNewEmoji}
                         ids={this.state.ids}
                         onFull={this.handleGameOver}
+                        score={this.state.score}
                     />
                 </div>
             );
@@ -72,6 +77,7 @@ class EmojiGame extends Component {
                         isPlaying={this.state.isPlaying}
                         onPlay={this.handlePlay}
                     />
+                    <h1 className="score">High Score: {this.highScore}</h1>
                 </div>
             );
         }
